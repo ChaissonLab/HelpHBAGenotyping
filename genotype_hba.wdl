@@ -18,8 +18,8 @@ workflow RunCtyper {
             input_bam = input_bam,
             input_bam_index = input_bam_index,
             KmerFile = KmerFile,
-            KmerIndex = KmerIndex
-	    background = background
+            KmerIndex = KmerIndex,
+	    background = background,
             output_name = output_name
     }
 
