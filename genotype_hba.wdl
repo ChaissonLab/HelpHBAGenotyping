@@ -24,7 +24,7 @@ workflow RunCtyper {
     }
 
     output {
-        File output_name = GenotypeSample.output_genotype,
+        File output_name = GenotypeSample.output_genotype
 	File output_vcf  = GenotypeSample.output_vcf
     }
 
