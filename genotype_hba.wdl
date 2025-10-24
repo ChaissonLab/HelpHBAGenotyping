@@ -11,7 +11,7 @@ task GenotypeSample {
         File inputVcfsGz
         String output_base
         Int nProc
-	int taskDiskSizeGb
+	Int taskDiskSizeGb
     }
 
     command <<<
