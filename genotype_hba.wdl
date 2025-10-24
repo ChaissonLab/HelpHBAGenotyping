@@ -52,7 +52,8 @@ workflow RunCtyper {
             KmerFile = KMER_FILE,
             KmerIndex = KMER_INDEX,
             background = BACKGROUND,
-            output_base = OUTPUT_BASE
+            output_base = OUTPUT_BASE,
+            inputVcfsGz = INPUTVCFSGZ 	    
     }
 
     output {
