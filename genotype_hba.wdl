@@ -34,7 +34,7 @@ workflow RunCtyper {
     }
 }
 
-task RunCtyperTask {
+task GenotypeSample {
     input {
         File input_bam
         File input_bam_index
