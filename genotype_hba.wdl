@@ -1,5 +1,39 @@
 version 1.0
 
+task GenotypeSample {
+    input {
+        File input_bam
+        File input_bam_index
+        File reference
+        File KmerFile
+        File KmerIndex
+        File background
+        File inputVcfsGz
+        String output_name
+        String output_vcf_name
+        Int nProc
+    }
+
+    command <<<
+        set -euo pipefail
+        ctyper -T ~{reference} -m ~{KmerFile} -i ~{input_bam} -o ~{output_name} -N ~{nProc} -b ~{background}
+        tar zxvf ~{inputVcfsGz}
+        ResultToVcf.sh ~{output_name} vcfs > ~{output_vcf_name}
+    >>>
+
+    output {
+        File output_genotype = "~{output_name}"
+        File output_vcf = "~{output_vcf_name}"
+    }
+
+    runtime {
+        docker: "mchaisso/ctyper:0.2"
+        cpu: 1
+        memory: "24G"
+    }
+}
+
+
 workflow RunCtyper {
     input {
         File input_bam
@@ -13,7 +47,7 @@ workflow RunCtyper {
         String output_vcf
     }
 
-    call genotypeSample {
+    call GenotypeSample {
         input:
             input_bam = input_bam,
             input_bam_index = input_bam_index,
@@ -24,8 +58,8 @@ workflow RunCtyper {
     }
 
     output {
-        File output_name = genotypeSample.output_genotype
-        File output_vcf  = genotypeSample.output_vcf
+        File output_genotypes = GenotypeSample.output_genotype
+        File output_vcf  = GenotypeSample.output_vcf
     }
 
     meta {
@@ -34,35 +68,3 @@ workflow RunCtyper {
     }
 }
 
-task GenotypeSample {
-    input {
-        File input_bam
-        File input_bam_index
-        File reference
-        File KmerFile
-        File KmerIndex
-        File background
-        File inputVcfsGz
-        String output_name
-        String output_vcf
-        Int nProc
-    }
-
-    command <<<
-        set -euo pipefail
-        ctyper -T ~{reference} -m ~{KmerFile} -i ~{input_bam} -o ~{output_name} -N ~{nProc} -b ~{background}
-        tar zxvf ~{inputVcfsGz}
-        ResultToVcf.sh ~{output_name} vcfs > ~{output_vcf}
-    >>>
-
-    output {
-        File output_genotype = "~{output_name}"
-        File output_vcf = "~{output_vcf}"
-    }
-
-    runtime {
-        docker: "mchaisso/ctyper:0.2"
-        cpu: 1
-        memory: "24G"
-    }
-}
