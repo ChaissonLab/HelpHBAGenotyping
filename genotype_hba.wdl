@@ -13,7 +13,7 @@ workflow RunCtyper {
         String output_vcf
     }
 
-    call GenotypeSample {
+    call genotypeSample {
         input:
             input_bam = input_bam,
             input_bam_index = input_bam_index,
@@ -24,8 +24,8 @@ workflow RunCtyper {
     }
 
     output {
-        File output_name = GenotypeSample.output_genotype
-        File output_vcf  = GenotypeSample.output_vcf
+        File output_name = genotypeSample.output_genotype
+        File output_vcf  = genotypeSample.output_vcf
     }
 
     meta {
