@@ -57,7 +57,7 @@ workflow RunCtyper {
             background = BACKGROUND,
             output_base = OUTPUT_BASE,
             inputVcfsGz = INPUTVCFSGZ,
-            taskDiskSizeGb = TaskDiskSizeGB
+            taskDiskSizeGb = TaskDiskSizeGb
     }
 
     output {
