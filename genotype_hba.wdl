@@ -27,7 +27,7 @@ task GenotypeSample {
     }
 
     runtime {
-        docker: "mchaisso/ctyper:0.2"
+        docker: "mchaisso/ctyper:0.3"
         cpu: 8
         memory: "24G"
 	disks: "local-disk " + taskDiskSizeGb + " LOCAL"	
