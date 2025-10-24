@@ -11,6 +11,7 @@ task GenotypeSample {
         File inputVcfsGz
         String output_base
         Int nProc
+	int taskDiskSizeGb
     }
 
     command <<<
@@ -27,8 +28,9 @@ task GenotypeSample {
 
     runtime {
         docker: "mchaisso/ctyper:0.2"
-        cpu: 1
+        cpu: 8
         memory: "24G"
+	disks: "local-disk " + taskDiskSizeGb + " LOCAL"	
     }
 }
 
@@ -43,6 +45,7 @@ workflow RunCtyper {
         File BACKGROUND
         File INPUTVCFSGZ
         String OUTPUT_BASE
+	Int TaskDiskSizeGb	
     }
 
     call GenotypeSample {
@@ -53,7 +56,8 @@ workflow RunCtyper {
             KmerIndex = KMER_INDEX,
             background = BACKGROUND,
             output_base = OUTPUT_BASE,
-            inputVcfsGz = INPUTVCFSGZ 	    
+            inputVcfsGz = INPUTVCFSGZ,
+            taskDiskSizeGb = taskDiskSizeGB
     }
 
     output {
