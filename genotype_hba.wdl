@@ -9,21 +9,20 @@ task GenotypeSample {
         File KmerIndex
         File background
         File inputVcfsGz
-        String output_name
-        String output_vcf_name
+        String output_base
         Int nProc
     }
 
     command <<<
         set -euo pipefail
-        ctyper -T ~{reference} -m ~{KmerFile} -i ~{input_bam} -o ~{output_name} -N ~{nProc} -b ~{background}
+        ctyper -T ~{reference} -m ~{KmerFile} -i ~{input_bam} -o ~{output_base}.out -N ~{nProc} -b ~{background}
         tar zxvf ~{inputVcfsGz}
-        ResultToVcf.sh ~{output_name} vcfs > ~{output_vcf_name}
+        ResultToVcf.sh ~{output_name} vcfs > ~{output_base}.vcf
     >>>
 
     output {
-        File output_genotype = "~{output_name}"
-        File output_vcf = "~{output_vcf_name}"
+        File output_genotype = "~{output_base}.out"
+        File output_vcf = "~{output_base}.vcf"
     }
 
     runtime {
@@ -36,25 +35,24 @@ task GenotypeSample {
 
 workflow RunCtyper {
     input {
-        File input_bam
-        File input_bam_index
-        File reference
-        File KmerFile
-        File KmerIndex
-        File background
-        File inputVcfsGz
-        String output_name
-        String output_vcf
+        File INPUT_BAM
+        File INPUT_BAM_index
+        File REFERENCE
+        File KMER_FILE
+        File KMER_INDEX
+        File BACKGROUND
+        File INPUTVCFSGZ
+        String OUTPUT_BASE
     }
 
     call GenotypeSample {
         input:
-            input_bam = input_bam,
-            input_bam_index = input_bam_index,
-            KmerFile = KmerFile,
-            KmerIndex = KmerIndex,
-            background = background,
-            output_name = output_name
+            input_bam = INPUT_BAM,
+            input_bam_index = INPUT_BAM_INDEX,
+            KmerFile = KMER_FILE,
+            KmerIndex = KMER_INDEX,
+            background = BACKGROUND,
+            output_base = OUTPUT_BASE
     }
 
     output {
