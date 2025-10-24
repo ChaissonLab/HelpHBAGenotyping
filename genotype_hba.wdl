@@ -36,7 +36,7 @@ task GenotypeSample {
 workflow RunCtyper {
     input {
         File INPUT_BAM
-        File INPUT_BAM_index
+        File INPUT_BAM_INDEX
         File REFERENCE
         File KMER_FILE
         File KMER_INDEX
