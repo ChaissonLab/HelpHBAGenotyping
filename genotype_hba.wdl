@@ -17,7 +17,7 @@ task GenotypeSample {
         set -euo pipefail
         ctyper -T ~{reference} -m ~{KmerFile} -i ~{input_bam} -o ~{output_base}.out -N ~{nProc} -b ~{background}
         tar zxvf ~{inputVcfsGz}
-        ResultToVcf.sh ~{output_name} vcfs > ~{output_base}.vcf
+        ResultToVcf.sh ~{output_base}.out vcfs > ~{output_base}.vcf
     >>>
 
     output {
